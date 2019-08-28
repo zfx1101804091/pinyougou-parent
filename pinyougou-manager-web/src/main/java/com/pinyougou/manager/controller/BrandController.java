@@ -106,9 +106,11 @@ public class BrandController {
 	public Result delete(Long [] ids){
 		try {
 			brandService.delete(ids);
+			logger.debug("/delete---"+ ids);
 			return new Result(true, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.debug("/delete---"+ e.getMessage());
 			return new Result(false, "删除失败");
 		}
 	}
@@ -123,6 +125,7 @@ public class BrandController {
 	 */
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody TbBrand brand, int page, int rows  ){
+		logger.debug("/search---"+ brandService.findPage(brand, page, rows));
 		return brandService.findPage(brand, page, rows);
 	}
 }
