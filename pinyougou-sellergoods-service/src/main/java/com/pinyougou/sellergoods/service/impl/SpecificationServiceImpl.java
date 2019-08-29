@@ -1,5 +1,8 @@
 package com.pinyougou.sellergoods.service.impl;
 import java.util.List;
+
+import com.pinyougou.pojo.TbSpecificationOption;
+import com.pinyougou.pojogroup.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -45,10 +48,13 @@ public class SpecificationServiceImpl implements SpecificationService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbSpecification specification) {
-		specificationMapper.insert(specification);		
+	public void add(Specification specification) {
+		specificationMapper.insert(specification.getSpecification());//插入规格	
+		//循环插入规格选项
+		for(TbSpecificationOption specificationOption:specification.getSpecificationOptionList()){	
+			specificationOption.setSpecId(specification.getSpecification().getId());//设置规格ID		specificationOptionMapper.insert(specificationOption);		
+		}
 	}
-
 	
 	/**
 	 * 修改
